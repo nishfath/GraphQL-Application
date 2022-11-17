@@ -26,8 +26,8 @@ jobs:
       id: extract_branch
     - name: NextGen Static Analysis
       run: |
-       docker build -t graphQL-Application .
-       ${GITHUB_WORKSPACE}/sl analyze --wait --app GraphQL-Application --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --container graphQL-Application --js .
+       docker build -t graphql .
+       ${GITHUB_WORKSPACE}/sl analyze --wait --app GraphQL-Application --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --container graphql --js .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
         
