@@ -27,7 +27,7 @@ jobs:
     - name: NextGen Static Analysis
       run: |
        docker build -t graphql .
-       ${GITHUB_WORKSPACE}/sl analyze --wait --app GraphQL-Application --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --container graphql --js .
+       ${GITHUB_WORKSPACE}/sl analyze --wait --app GraphQL-Application --branch="release" --container graphql --js .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
         
@@ -41,12 +41,6 @@ jobs:
         curl https://cdn.shiftleft.io/download/sl > ${GITHUB_WORKSPACE}/sl && chmod a+rx ${GITHUB_WORKSPACE}/sl
     - name: Validate Build Rules
       run: |
-        ${GITHUB_WORKSPACE}/sl check-analysis --v2 --app GraphQL-Application \
-            --branch "${{ github.head_ref || steps.extract_branch.outputs.branch }}" \
-            --report \
-            --github-pr-number=${{github.event.number}} \
-            --github-pr-user=${{ github.repository_owner }} \
-            --github-pr-repo=${{ github.event.repository.name }} \
-            --github-token=${{ secrets.GITHUB_TOKEN }}
+        ${GITHUB_WORKSPACE}/sl check-analysis --v2 --app GraphQL-Application --target tag.branch="release" 
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
